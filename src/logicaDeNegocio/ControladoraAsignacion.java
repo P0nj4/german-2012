@@ -80,7 +80,7 @@ public class ControladoraAsignacion {
             } else {                
                 a.setEstado( EstadoDeAsignacion.Pendiente.getCode());
             }
-
+            a.setParentId(m.getid());
             a.setPesoMercancia(pesoMercanciaReal);
             a.setPrioridad(prioridad);
             a.setUsuario(u);

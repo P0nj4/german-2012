@@ -143,4 +143,13 @@ public class Vehiculo extends utilidades.Observable implements persistencia.IPer
         return this.matricula + " -> " + this.marca + " " + this.modelo;
     }
 
+    @Override
+    public int getParentId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setParentId(int id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }

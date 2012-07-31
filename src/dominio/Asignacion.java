@@ -19,6 +19,7 @@ public class Asignacion implements IPersistente {
     private int prioridad;
     private long pesoMercancia;
     private Vehiculo vehiculo;
+    private int parentId;
     private Usuario usuario;
     private int estado;
 
@@ -251,5 +252,14 @@ public class Asignacion implements IPersistente {
     public String getTableName(boolean singular) {
         return (singular ? "asignacion" : "Asignaciones");
     }
-    
+
+    @Override
+    public int getParentId() {
+        return this.parentId;
+    }
+
+    @Override
+    public void setParentId(int id) {
+        this.parentId = id;
+    }
 }

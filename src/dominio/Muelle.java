@@ -157,4 +157,13 @@ public class Muelle  extends utilidades.Observable implements IPersistente {
 
     }
 
+    @Override
+    public int getParentId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setParentId(int id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 }
