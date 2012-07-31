@@ -115,6 +115,14 @@ public class Usuario implements IPersistente {
 			return "Usuarios";
 	}
 
-  
+    @Override
+    public int getParentId() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void setParentId(int id) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
 
 }

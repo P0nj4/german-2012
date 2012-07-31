@@ -56,8 +56,8 @@ public class Fachada {
         return ControladoraMuelle.getInstance().listarMuelles();
     }
 
-    public void eliminarMuelle(int id) throws Exception {
-        ControladoraMuelle.getInstance().eliminarMuelle(id);
+    public void eliminarMuelle(Muelle m) throws Exception {
+        ControladoraMuelle.getInstance().eliminarMuelle(m);
     }
 
     public void modificarMuelle(int id, int criterio, String descripcion, String nombre) throws Exception {

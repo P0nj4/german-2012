@@ -79,22 +79,24 @@ public class ControladoraMuelle {
         }
     }
 
-    public void eliminarMuelle(int id) throws Exception {
+    public void eliminarMuelle(Muelle m) throws Exception {
         try {
-            if (id < 1) {
+            if (m.getid() < 1) {
                 throw new ExcepcionControlada("El muelle seleccionado no es correcto");
             }
-            Muelle m = new Muelle();
-            m.setid(id);
-            m.eliminar();
 
-            //elimino el muelle de la lista de muelles disponibles
-            for (int i = 0; i < todosLosMuelles.size(); i++) {
-                Muelle muelleLoop = (Muelle) todosLosMuelles.get(i);
-                if (muelleLoop.getid() == id) {
-                    todosLosMuelles.remove(i);
-                    i = todosLosMuelles.size() + 1;
-                }
+
+            if (m.getAsignaciones().size() == 0) {
+                m.eliminar();
+                //elimino el muelle de la lista de muelles disponibles
+                /*for (int i = 0; i < todosLosMuelles.size(); i++) {
+                    Muelle muelleLoop = (Muelle) todosLosMuelles.get(i);
+                    if (muelleLoop.getid() == id) {
+                        todosLosMuelles.remove(i);
+                        i = todosLosMuelles.size() + 1;
+                    }
+                }*/
+                todosLosMuelles.remove(m);
             }
 
         } catch (ExcepcionControlada ex) {

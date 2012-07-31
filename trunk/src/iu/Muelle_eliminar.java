@@ -132,8 +132,8 @@ private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
     try {
         int selected = Tabla.getSelectedRow();
-        int id = ((Muelle) muelles.get(selected)).getid();
-        Fachada.getInstance().eliminarMuelle(id);
+        
+        Fachada.getInstance().eliminarMuelle(((Muelle) muelles.get(selected)));
         this.setVisible(false);
         this.dispose();
     } catch (Exception ex) {
