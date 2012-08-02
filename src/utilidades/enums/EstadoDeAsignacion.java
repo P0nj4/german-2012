@@ -13,7 +13,7 @@ import java.util.Map;
  */
 public enum EstadoDeAsignacion {
  
-    Pendiente(21), Descargando(22), Finalizado(23);
+    Pendiente(1), Descargando(2), Finalizado(3);
  
  private int code;
  

@@ -10,21 +10,63 @@
  */
 package iu;
 
+import dominio.Asignacion;
+import dominio.Muelle;
+import dominio.Vehiculo;
+import java.util.ArrayList;
+import javax.swing.table.DefaultTableModel;
 import logicaDeNegocio.Fachada;
+import utilidades.enums.EstadoDeAsignacion;
 
 /**
  *
  * @author German
  */
 public class ListaSiempreVisible extends JInternalBaseClass implements utilidades.IObservador {
+    
+    ArrayList muelles = null;
 
     /** Creates new form ListaSiempreVisible */
     public ListaSiempreVisible() {
         initComponents();
         try {
             Fachada.getInstance().agregarObservadorDeMuelles(this);
+            ddlMuelles.removeAllItems();
+            ddlMuelles.addItem("Seleccionar");
+            muelles = Fachada.getInstance().listarMuelles();
+            for (int i = 0; i < muelles.size(); i++) {
+                ddlMuelles.addItem(muelles.get(i).toString());
+            }
+            actualizarTablar();
+            
+            
         } catch (Exception ex) {
             msgBoxError(ex.getMessage());
+        }
+    }
+    
+    private void actualizarTablar() {
+        try {
+            if (ddlMuelles.getSelectedIndex() > 0) {
+                
+                Muelle m = (Muelle) muelles.get(ddlMuelles.getSelectedIndex() - 1);
+                DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
+                for (int i = 0; i < modelo.getRowCount(); i++) {
+                    modelo.removeRow(i);
+                }
+                
+                for (int i = 0; i < m.getAsignaciones().size(); i++) {
+                    Asignacion a = (Asignacion) m.getAsignaciones().get(i);
+                    
+                    EstadoDeAsignacion o = utilidades.enums.EstadoDeAsignacion.values()[a.getEstado() - 1];
+                    Vehiculo v = (Vehiculo) a.getVehiculo();
+                    Object[] row = {v.getMatricula(), v.getMarca(), v.getModelo(), o.toString()};
+                    modelo.addRow(row);
+                }
+            }
+        } catch (Exception ex) {
+            this.msgBoxError("Hubo un error");
+            this.closeWindow();
         }
     }
 
@@ -37,24 +79,77 @@ public class ListaSiempreVisible extends JInternalBaseClass implements utilidade
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        ddlMuelles = new javax.swing.JComboBox();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tabla = new javax.swing.JTable();
+
+        jLabel1.setText("Muelle");
+
+        ddlMuelles.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        tabla.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Matricula", "Modelo", "Marca", "Estado"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, true, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(tabla);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 394, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ddlMuelles, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 274, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(ddlMuelles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox ddlMuelles;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tabla;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void actualizar() {
-        msgBoxError("se actualizo");
+        actualizarTablar();
     }
 }
