@@ -142,7 +142,7 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             for (int i = 0; i < muelles.size(); i++) {
                 Muelle m = (Muelle) muelles.get(i);
                 
-                Criterio o =  utilidades.enums.Criterio.values()[m.getCriterio() + 1];
+                Criterio o =  utilidades.enums.Criterio.values()[m.getCriterio() - 1];
                 Object[] row = {m.getNombre(), o.toString() , m.getDescripcion()};
                 modelo.addRow(row);
             }

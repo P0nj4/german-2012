@@ -133,6 +133,7 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             Muelle m = (Muelle) todosLosMuelles.get(ddlMuelles2.getSelectedIndex() - 1);
             Asignacion a = (Asignacion) m.getAsignaciones().get(selected);
             Fachada.getInstance().modificarAsignacion(m, a);
+            this.closeWindow();
         }
 
     } catch (Exception ex) {
