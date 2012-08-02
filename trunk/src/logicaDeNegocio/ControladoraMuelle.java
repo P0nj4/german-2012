@@ -5,6 +5,7 @@
 package logicaDeNegocio;
 
 import dominio.Muelle;
+import dominio.Vehiculo;
 import excepciones.ExcepcionControlada;
 import java.util.ArrayList;
 
@@ -88,15 +89,10 @@ public class ControladoraMuelle {
 
             if (m.getAsignaciones().size() == 0) {
                 m.eliminar();
-                //elimino el muelle de la lista de muelles disponibles
-                /*for (int i = 0; i < todosLosMuelles.size(); i++) {
-                    Muelle muelleLoop = (Muelle) todosLosMuelles.get(i);
-                    if (muelleLoop.getid() == id) {
-                        todosLosMuelles.remove(i);
-                        i = todosLosMuelles.size() + 1;
-                    }
-                }*/
+                //elimino el muelle de la lista de muelles disponibles               
                 todosLosMuelles.remove(m);
+            } else {
+                throw new ExcepcionControlada("El muelle tiene descargas pendientes");
             }
 
         } catch (ExcepcionControlada ex) {
@@ -140,6 +136,22 @@ public class ControladoraMuelle {
             for (int i = 0; i < todosLosMuelles.size(); i++) {
                 ((Muelle) todosLosMuelles.get(i)).eliminarObservador(o);
             }
+        } catch (Exception ex) {
+            throw new ExcepcionControlada(ex);
+        }
+    }
+    
+    public boolean MuelleTieneVehiculo(Vehiculo v) throws Exception{
+        try{
+            for(int i = 0; i < todosLosMuelles.size(); i++){
+                ArrayList asignaciones = (((Muelle)todosLosMuelles.get(i)).getAsignaciones());
+                for(int j =0; j < asignaciones.size(); j++){
+                    if(((Vehiculo)asignaciones.get(j)).getid() == v.getid()){
+                        return true;
+                    }
+                }
+            }
+            return false;
         } catch (Exception ex) {
             throw new ExcepcionControlada(ex);
         }

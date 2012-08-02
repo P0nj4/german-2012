@@ -6,7 +6,7 @@ package logicaDeNegocio;
 
 import dominio.Usuario;
 import dominio.Vehiculo;
-import dominio.enums.TipoDeUsuario;
+import utilidades.enums.TipoDeUsuario;
 import excepciones.ExcepcionControlada;
 import java.util.ArrayList;
 
@@ -33,9 +33,14 @@ public class ControladoraVehiculo {
             if (id == 0) {
                 throw new ExcepcionControlada("El vehiculo seleccionado no es correcto");
             }
+            
             Vehiculo v = new Vehiculo();
             v.setid(id);
-            v.eliminar();
+            if(ControladoraMuelle.getInstance().MuelleTieneVehiculo(v)){
+                throw new ExcepcionControlada("El vehículo no puede ser eliminado dado que esta en una cola de espera");
+            }else{
+                v.eliminar();
+            }
         } catch (ExcepcionControlada e) {
             throw e;
         } catch (Exception ex) {
@@ -45,7 +50,7 @@ public class ControladoraVehiculo {
 
     public void NuevoVehiculo(String marca, String modelo, String matricula, Usuario u) throws Exception {
         try {
-            if (u.getTipoDeUsuario() == TipoDeUsuario.Administrador.getCode()) {
+            if (u.getTipoDeUsuario() != TipoDeUsuario.Administrador.getCode()) {
                 throw new ExcepcionControlada("Usted no tiene permisos para realizar esta acción");
             }
             if (marca == null || marca.trim().length() == 0) {
@@ -79,7 +84,7 @@ public class ControladoraVehiculo {
      */
     public void ModificarVehiculo(int id, String marca, String modelo, String matricula, Usuario u) throws Exception {
         try {
-            if (u.getTipoDeUsuario() == TipoDeUsuario.Administrador.getCode()) {
+            if (u.getTipoDeUsuario() != TipoDeUsuario.Administrador.getCode()) {
                 throw new ExcepcionControlada("Usted no tiene permisos para realizar esta acción");
             }
             if (marca == null || marca.trim().length() == 0) {
@@ -112,7 +117,7 @@ public class ControladoraVehiculo {
      */
     public ArrayList listarVehiculos(Usuario u) throws Exception {
         try {
-            if (u.getTipoDeUsuario() == TipoDeUsuario.Administrador.getCode()) {
+            if (u.getTipoDeUsuario() != TipoDeUsuario.Administrador.getCode()) {
                 throw new ExcepcionControlada("Usted no tiene permisos para realizar esta acción");
             }
             Vehiculo v = new Vehiculo();

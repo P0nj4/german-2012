@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import logicaDeNegocio.Fachada;
-import dominio.enums.Criterio;
+import utilidades.enums.Criterio;
 
 /**
  *

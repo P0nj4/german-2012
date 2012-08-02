@@ -11,7 +11,6 @@
 package iu;
 
 import dominio.Usuario;
-import javax.swing.JOptionPane;
 import logicaDeNegocio.Fachada;
 
 /**

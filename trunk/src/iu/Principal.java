@@ -13,7 +13,6 @@ package iu;
 import dominio.Usuario;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -27,17 +26,33 @@ public class Principal extends javax.swing.JFrame {
     
     private void agregarVentanaHija(JInternalBaseClass o) {
         boolean estaEnLaLista = false;
-        for (int i = 0; i < ventanas.size(); i++) {
-            if (o.getClass() == ventanas.get(i).getClass()) {
-                ((JInternalBaseClass) o).setVisible(true);                
+        /*for (int i = 0; i < ventanas.size(); i++) {
+        if (o.getClass() == ventanas.get(i).getClass()) {
+        ((JInternalBaseClass) o).setVisible(true);                
+        estaEnLaLista = true;
+        }
+        }
+         * 
+         */
+        
+        for (int i = 0; i < this.desktop.getAllFrames().length; i++) {
+            if (this.desktop.getAllFrames()[i].getClass() == o.getClass()) {
                 estaEnLaLista = true;
             }
         }
-        if (!estaEnLaLista) {
+        if (!estaEnLaLista) {            
             ventanas.add(o);
+            o.setParent(desktop);
             this.desktop.add(o);
             o.setVisible(true);
+        } else {
+            o.setVisible(true);
         }
+        
+        
+        
+        
+        
     }
 
     /** Creates new form Principal */
@@ -47,13 +62,17 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         //this.setUndecorated(true);
         
-        loggedUser = u;
         
+        
+        loggedUser = u;
+        if (loggedUser.getTipoDeUsuario() != 1) {
+            btnVehiculos.setVisible(false);
+        }
         ListaSiempreVisible frm = new ListaSiempreVisible();
         agregarVentanaHija(frm);
         
         this.addWindowListener(new java.awt.event.WindowAdapter() {
-
+            
             public void windowClosing(WindowEvent winEvt) {
                 //chequear los muelles
                 System.exit(0);

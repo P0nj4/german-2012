@@ -14,7 +14,7 @@ public class Fachada {
     private static Fachada instancia;
 
     private Fachada() {
-        ManejadorBD.getInstancia().setUrl("jdbc:odbc:obligatorio");
+        ManejadorBD.getInstancia().setUrl("jdbc:odbc:disenio2012");
     }
 
     public static Fachada getInstance() {

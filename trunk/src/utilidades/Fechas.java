@@ -11,6 +11,7 @@ import java.util.Date;
  */
 public class Fechas {
 
+    
 	/**
 	 * Dado un elemento del tipo date retorna un string de fecha en el siguiente formato yyyy-MM-dd
 	 * @param fecha

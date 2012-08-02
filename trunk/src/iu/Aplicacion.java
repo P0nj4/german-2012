@@ -9,7 +9,7 @@ import java.util.Calendar;
 import logicaDeNegocio.Fachada;
 
 import dominio.*;
-import dominio.enums.Criterio;
+import utilidades.enums.Criterio;
 
 public class Aplicacion {
     

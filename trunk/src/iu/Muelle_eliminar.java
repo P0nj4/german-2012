@@ -14,33 +14,22 @@ import dominio.Muelle;
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
 import logicaDeNegocio.Fachada;
-import dominio.enums.Criterio;
+import utilidades.enums.Criterio;
+import utilidades.IObservador;
 
 /**
  *
  * @author German
  */
-public class Muelle_eliminar extends JInternalBaseClass {
+public class Muelle_eliminar extends JInternalBaseClass  {
 
     ArrayList muelles = null;
 
     /** Creates new form Muelle_modificar */
     public Muelle_eliminar() {
         initComponents();
-
-        try {
-            muelles = Fachada.getInstance().listarMuelles();
-            DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
-            for (int i = 0; i < muelles.size(); i++) {
-                Muelle m = (Muelle) muelles.get(i);
-                
-                Criterio o =  dominio.enums.Criterio.values()[m.getCriterio() + 1];
-                Object[] row = {m.getNombre(), o.toString() , m.getDescripcion()};
-                modelo.addRow(row);
-            }
-        } catch (Exception ex) {
-            msgBoxError(ex.getMessage());
-        }
+    actualizar();
+        
     }
 
     /** This method is called from within the constructor to
@@ -146,4 +135,21 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JButton btnCancelar;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+
+    public void actualizar() {
+        try {
+            muelles = Fachada.getInstance().listarMuelles();
+            DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
+            for (int i = 0; i < muelles.size(); i++) {
+                Muelle m = (Muelle) muelles.get(i);
+                
+                Criterio o =  utilidades.enums.Criterio.values()[m.getCriterio() + 1];
+                Object[] row = {m.getNombre(), o.toString() , m.getDescripcion()};
+                modelo.addRow(row);
+            }
+        } catch (Exception ex) {
+            msgBoxError(ex.getMessage());
+        }
+    }
 }
