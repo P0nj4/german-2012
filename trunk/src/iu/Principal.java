@@ -84,8 +84,9 @@ public class Principal extends javax.swing.JFrame {
                     ArrayList muelles = Fachada.getInstance().listarMuelles();
                     for (int i = 0; i < muelles.size(); i++) {
                         if (((Muelle) muelles.get(i)).getAsignaciones().size() > 0) {
-                            JOptionPane.showMessageDialog(null, "Aún quedan descargas pendientes, no se puede cerrar el progama hasta que estas terminen", "Advertencia", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Aún quedan descargas pendientes, no se puede cerrar el progama hasta que estas terminen", "Advertencia", JOptionPane.ERROR_MESSAGE);                            
                             pendientes = true;
+                            i = muelles.size() + 1;
                         }
                     }
                     new Principal(loggedUser);
