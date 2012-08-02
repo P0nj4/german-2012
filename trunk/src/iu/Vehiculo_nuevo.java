@@ -134,8 +134,7 @@ public class Vehiculo_nuevo extends JInternalBaseClass {
 private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
         try {
             Fachada.getInstance().NuevoVehiculo(txtMarca.getText(), txtModelo.getText(), txtMatricula.getText(), usuarioLogueado);
-            this.setVisible(false);
-            this.dispose();
+            this.closeWindow();
         } catch (Exception ex) {
              msgBoxError(ex.getMessage());
         }
@@ -150,8 +149,7 @@ private void txtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRS
 }//GEN-LAST:event_txtMarcaActionPerformed
 
 private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-    setVisible(false);
-    remove(this);
+    this.closeWindow();
 }//GEN-LAST:event_btnCancelarActionPerformed
 
 private void txtMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatriculaActionPerformed
