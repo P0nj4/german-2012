@@ -33,12 +33,12 @@ public class ControladoraVehiculo {
             if (id == 0) {
                 throw new ExcepcionControlada("El vehiculo seleccionado no es correcto");
             }
-            
+
             Vehiculo v = new Vehiculo();
             v.setid(id);
-            if(ControladoraMuelle.getInstance().MuelleTieneVehiculo(v)){
+            if (ControladoraMuelle.getInstance().MuelleTieneVehiculo(v)) {
                 throw new ExcepcionControlada("El vehículo no puede ser eliminado dado que esta en una cola de espera");
-            }else{
+            } else {
                 v.eliminar();
             }
         } catch (ExcepcionControlada e) {
@@ -129,19 +129,20 @@ public class ControladoraVehiculo {
         }
 
     }
-    
-    
-    public Vehiculo buscarVehiculo(String matricula) throws Exception{
-        try{
+
+    public Vehiculo buscarVehiculo(String matricula) throws Exception {
+        try {
             Vehiculo v = new Vehiculo();
             v.setMatricula(matricula);
             v.leer();
-            if(v.getid() == 0){
+            if (v.getid() == 0) {
                 throw new ExcepcionControlada("No se ha encontrado ese vehículo");
             }
             return v;
-        }catch(Exception ex){
-        throw new ExcepcionControlada(ex);
+        } catch (ExcepcionControlada ex) {
+            throw ex;
+        } catch (Exception ex) {
+            throw new ExcepcionControlada(ex);
         }
     }
 }

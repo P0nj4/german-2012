@@ -10,20 +10,23 @@
  */
 package iu;
 
+import dominio.Muelle;
 import dominio.Usuario;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
+import logicaDeNegocio.Fachada;
 
 /**
  *
  * @author German
  */
 public class Principal extends javax.swing.JFrame {
-    
+
     Usuario loggedUser = null;
     ArrayList ventanas = null;
-    
+
     private void agregarVentanaHija(JInternalBaseClass o) {
         boolean estaEnLaLista = false;
         /*for (int i = 0; i < ventanas.size(); i++) {
@@ -34,13 +37,13 @@ public class Principal extends javax.swing.JFrame {
         }
          * 
          */
-        
+
         for (int i = 0; i < this.desktop.getAllFrames().length; i++) {
             if (this.desktop.getAllFrames()[i].getClass() == o.getClass()) {
                 estaEnLaLista = true;
             }
         }
-        if (!estaEnLaLista) {            
+        if (!estaEnLaLista) {
             ventanas.add(o);
             o.setParent(desktop);
             this.desktop.add(o);
@@ -48,11 +51,11 @@ public class Principal extends javax.swing.JFrame {
         } else {
             o.setVisible(true);
         }
-        
-        
-        
-        
-        
+
+
+
+
+
     }
 
     /** Creates new form Principal */
@@ -60,25 +63,45 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         ventanas = new ArrayList();
         this.setExtendedState(this.MAXIMIZED_BOTH);
+        this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         //this.setUndecorated(true);
-        
-        
-        
+
+
+
         loggedUser = u;
         if (loggedUser.getTipoDeUsuario() != 1) {
             btnVehiculos.setVisible(false);
         }
         ListaSiempreVisible frm = new ListaSiempreVisible();
         agregarVentanaHija(frm);
-        
+
         this.addWindowListener(new java.awt.event.WindowAdapter() {
-            
+
             public void windowClosing(WindowEvent winEvt) {
                 //chequear los muelles
-                System.exit(0);
+                try {
+                    boolean pendientes = false;
+                    ArrayList muelles = Fachada.getInstance().listarMuelles();
+                    for (int i = 0; i < muelles.size(); i++) {
+                        if (((Muelle) muelles.get(i)).getAsignaciones().size() > 0) {
+                            JOptionPane.showMessageDialog(null, "Aún quedan descargas pendientes, no se puede cerrar el progama hasta que estas terminen", "Advertencia", JOptionPane.ERROR_MESSAGE);
+                            pendientes = true;
+                        }
+                    }
+                    new Principal(loggedUser);
+                    if (!pendientes) {
+                        System.exit(0);
+                    } else {
+                        Principal p = new Principal(loggedUser);
+                        p.setVisible(true);
+                    }
+
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null, "Lamentamos informarle que ha ocurrido un error", "Advertencia", JOptionPane.ERROR_MESSAGE);
+                }
             }
         });
-        
+
     }
 
     /** This method is called from within the constructor to
@@ -207,45 +230,45 @@ private void btnVehiculoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//
     try {
         Vehiculo_nuevo frm = new Vehiculo_nuevo(loggedUser);
         this.agregarVentanaHija(frm);
-        
+
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Advertencia", JOptionPane.ERROR_MESSAGE);
     }
 }//GEN-LAST:event_btnVehiculoNuevoActionPerformed
-    
+
 private void btnVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculosActionPerformed
 }//GEN-LAST:event_btnVehiculosActionPerformed
-    
+
 private void btnVehiculoModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculoModificarActionPerformed
     Vehiculo_modificar frm = new Vehiculo_modificar(loggedUser);
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnVehiculoModificarActionPerformed
-    
+
 private void btnVehiculoEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculoEliminarActionPerformed
     Vehiculo_eliminar frm = new Vehiculo_eliminar(loggedUser);
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnVehiculoEliminarActionPerformed
-    
+
 private void btnMuelleNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuelleNuevoActionPerformed
     Muelle_nuevo frm = new Muelle_nuevo();
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnMuelleNuevoActionPerformed
-    
+
 private void btnMuelleEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuelleEliminarActionPerformed
     Muelle_eliminar frm = new Muelle_eliminar();
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnMuelleEliminarActionPerformed
-    
+
 private void btnMuelleModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuelleModificarActionPerformed
     Muelle_modificar frm = new Muelle_modificar();
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnMuelleModificarActionPerformed
-    
+
 private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
     Asignacion_nueva frm = new Asignacion_nueva(loggedUser);
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_jMenuItem1ActionPerformed
-    
+
 private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
     Asignacion_modificar frm = new Asignacion_modificar();
     this.agregarVentanaHija(frm);
@@ -280,7 +303,7 @@ private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-            
+
             public void run() {
                 new Principal(null).setVisible(true);
             }

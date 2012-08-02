@@ -14,7 +14,14 @@ public class Muelle extends utilidades.Observable implements IPersistente {
     private String descripcion;
     private int criterio;
     private ArrayList asignaciones;
+    private boolean cerrado;
 
+    public boolean getCerrado(){
+        return cerrado;
+    }
+    public void setCerrado(boolean pcerrado){
+        this.cerrado = pcerrado;
+    }
     public Muelle() {
         asignaciones = new ArrayList();
     }
