@@ -14,6 +14,7 @@ package iu;
 import dominio.Muelle;
 import java.util.ArrayList;
 import logicaDeNegocio.Fachada;
+import utilidades.IObservador;
 
 /**
  *
@@ -26,20 +27,8 @@ public class Muelle_modificar extends JInternalBaseClass {
     /** Creates new form Muelle_modificar */
     public Muelle_modificar() {
         initComponents();
-        try {
-            ddlCriterios.removeAllItems();
-            ddlMuelles.removeAllItems();
-            ddlMuelles.addItem("Seleccione un muelle");
-            muelles = Fachada.getInstance().listarMuelles();
-            for (int i = 0; i < muelles.size(); i++) {
-                Muelle m = (Muelle) muelles.get(i);
-                ddlMuelles.addItem(m.toString());
-            }
-
-        } catch (Exception ex) {
-            msgBoxError(ex.getMessage());
-            this.closeWindow();
-        }
+        actualizar();
+        
     }
 
     /** This method is called from within the constructor to
@@ -165,8 +154,8 @@ private void ddlMuellesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
             Muelle m = (Muelle) muelles.get(ddlMuelles.getSelectedIndex() - 1);
 
-            for (int i = 0; i < dominio.enums.Criterio.values().length; i++) {
-                ddlCriterios.addItem(dominio.enums.Criterio.values()[i].toString());
+            for (int i = 0; i < utilidades.enums.Criterio.values().length; i++) {
+                ddlCriterios.addItem(utilidades.enums.Criterio.values()[i].toString());
                 ddlCriterios.setSelectedIndex(m.getCriterio() - 1);
             }
             this.txtDescripcion.setText(m.getDescripcion());
@@ -187,4 +176,22 @@ private void ddlMuellesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JTextField txtDescripcion;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+
+    
+    public void actualizar() {
+        try {
+            ddlCriterios.removeAllItems();
+            ddlMuelles.removeAllItems();
+            ddlMuelles.addItem("Seleccione un muelle");
+            muelles = Fachada.getInstance().listarMuelles();
+            for (int i = 0; i < muelles.size(); i++) {
+                Muelle m = (Muelle) muelles.get(i);
+                ddlMuelles.addItem(m.toString());
+            }
+
+        } catch (Exception ex) {
+            msgBoxError(ex.getMessage());
+            this.closeWindow();
+        }
+    }
 }

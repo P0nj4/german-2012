@@ -2,23 +2,36 @@ package dominio;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
-
 import persistencia.IPersistente;
 import persistencia.ManejadorBD;
 
-public class Vehiculo implements IPersistente {
+public class Vehiculo2 extends utilidades.Observable implements persistencia.IPersistente {
 
     private int id;
     private String marca;
-    private String matricula;
     private String modelo;
+    private String matricula;
 
     public String getMarca() {
         return marca;
     }
 
     public void setMarca(String marca) {
+        if (!this.marca.equals(marca)) {
+            notificarObservadores();
+        }
         this.marca = marca;
+    }
+
+    public String getModelo() {
+        return modelo;
+    }
+
+    public void setModelo(String modelo) {
+        if (!this.marca.equals(marca)) {
+            this.modelo = modelo;
+            notificarObservadores();
+        }
     }
 
     public String getMatricula() {
@@ -26,26 +39,10 @@ public class Vehiculo implements IPersistente {
     }
 
     public void setMatricula(String matricula) {
-        this.matricula = matricula;
-    }
-
-    public String getModelo() {
-        return this.modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    @Override
-    public int getid() {
-        return id;
-    }
-
-    @Override
-    public void setid(int valor) {
-        this.id = valor;
-
+        if (!this.marca.equals(marca)) {
+            this.matricula = matricula;
+            notificarObservadores();
+        }
     }
 
     @Override
@@ -74,6 +71,18 @@ public class Vehiculo implements IPersistente {
     }
 
     @Override
+    public int getid() {
+        // TODO Auto-generated method stub
+        return this.id;
+    }
+
+    @Override
+    public void setid(int valor) {
+        // TODO Auto-generated method stub
+        this.id = valor;
+    }
+
+    @Override
     public String getInsertSQL() {
         return "Insert into Vehiculos (vehiculoMarca,vehiculoMatricula,vehiculoModelo)Values('"
                 + this.marca
@@ -86,53 +95,59 @@ public class Vehiculo implements IPersistente {
 
     @Override
     public String getUpdateSQL() {
-       return "Update Vehiculos set vehiculoMarca ='" + marca + "', vehiculoMatricula='" + matricula + "', vehiculoModelo='" + modelo + "' where vehiculoID =" + this.getid();
+        return "Update Vehiculos set vehiculoMarca ='" + marca + "', vehiculoMatricula='" + matricula + "', vehiculoModelo='" + modelo + "' where vehiculoID =" + this.getid();
     }
 
     @Override
     public String getDeleteSQL() {
         return "Update Vehiculos set borrado = 1 where vehiculoID =" + this.getid();
-        
+        //return "Delete from Vehiculos ";
     }
 
     @Override
     public String getSelectSQL() {
-        String sql = "Select m.* From Vehiculos m where m.borrado = 0";
-        if (this.getid() != 0) {
-            sql = sql + " and m.vehiculoID = " + this.getid();
-        }
+        //String sql = "Select vehiculoMarca, vehiculoMatricula, vehiculoModelo, vehiculoID  from Vehiculos where borrado = 0";
+        String sql = "Select * from Vehiculos ";
+        if (id != 0) {
+            sql += " and vehiculoID =" + this.getid();
+        } 
         return sql;
     }
 
     @Override
     public void leerDesdeResultSet(ResultSet rs) throws Exception {
-        try {
-
-            this.setMarca(rs.getString("vehiculoMarca"));
-            this.setMatricula(rs.getString("vehiculoMatricula"));
-            this.setModelo(rs.getString("vehiculoModelo"));
-            this.setid(rs.getInt("vehiculoID"));
-
-        } catch (Exception ex) {
-            System.out.println("Error leerDesdeResultSet.\n" + ex.getMessage());
-            throw ex;
-        }
+        /*
+        this.setMarca(rs.getString("vehiculoMarca"));
+        this.setMatricula(rs.getString("vehiculoMatricula"));
+        this.setModelo(rs.getString("vehiculoModelo"));
+        this.setid(rs.getInt("vehiculoID"));
+         * 
+         */
+        String tmp =rs.getString(0);
+        this.setMarca(rs.getString(0));
+        this.setMatricula(rs.getString(1));
+        this.setModelo(rs.getString(2));
+        this.setid(rs.getInt(3));
 
     }
 
     @Override
     public IPersistente getNuevo() {
+        // TODO Auto-generated method stub
         return new Vehiculo();
     }
 
     @Override
     public String getTableName(boolean singular) {
-        return (singular ? "muelle" : "Muelles");
+        if (singular) {
+            return "vehiculo";
+        } else {
+            return "Vehiculos";
+        }
     }
 
     public String toString() {
-        return this.matricula + " " + this.marca + " " + this.modelo;
-
+        return this.matricula + " -> " + this.marca + " " + this.modelo;
     }
 
     @Override

@@ -15,7 +15,6 @@ import dominio.Vehiculo;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
-import javax.swing.JOptionPane;
 import logicaDeNegocio.Fachada;
 
 /**
@@ -167,7 +166,7 @@ private void ddlVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-
             }
         }
     } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, ex.getMessage(), "Advertencia", JOptionPane.ERROR_MESSAGE);
+        msgBoxError(ex.getMessage());
     }
 }//GEN-LAST:event_ddlVehiculosActionPerformed
 
@@ -181,13 +180,13 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             if (ddlVehiculos.getSelectedIndex() != 0) {
                 int id = ((Vehiculo) lista.get(ddlVehiculos.getSelectedIndex() - 1)).getid();
 
-                Fachada.getInstance().ModificarVehiculo(id, txtMarca.getText(), txtModelo.getText(), txtMarca.getText(), usuLogged);
+                Fachada.getInstance().ModificarVehiculo(id, txtMarca.getText(), txtModelo.getText(), txtMatricula.getText(), usuLogged);
                 setVisible(false);
                 remove(this);
             }
         }
     } catch (Exception ex) {
-        JOptionPane.showMessageDialog(null, ex.getMessage(), "Advertencia", JOptionPane.ERROR_MESSAGE);
+        msgBoxError(ex.getMessage());
     }
 }//GEN-LAST:event_btnAceptarActionPerformed
 
@@ -226,8 +225,7 @@ private void txtModeloActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
                 Vehiculo v = (Vehiculo)lista.get(i);
                 ddlVehiculos.addItem(v.toString());
             }
-        } catch (Exception ex) {
-            //JOptionPane.showMessageDialog(null, ex.getMessage(), "Advertencia", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception ex) {            
             msgBoxError(ex.getMessage());            
         }
     }

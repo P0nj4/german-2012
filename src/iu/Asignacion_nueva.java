@@ -21,7 +21,7 @@ import logicaDeNegocio.Fachada;
  * @author German
  */
 public class Asignacion_nueva extends JInternalBaseClass {
-    
+
     Usuario u = null;
     ArrayList todosLosMuelles = null;
     ArrayList todosLosVehiculos = null;
@@ -40,7 +40,7 @@ public class Asignacion_nueva extends JInternalBaseClass {
             for (int i = 0; i < todosLosMuelles.size(); i++) {
                 ddlMuelle.addItem(todosLosMuelles.get(i));
             }
-            
+
             todosLosVehiculos = Fachada.getInstance().listarVehiculos(u);
             for (int i = 0; i < todosLosVehiculos.size(); i++) {
                 ddlVehiculos.addItem(todosLosVehiculos.get(i));
@@ -48,7 +48,7 @@ public class Asignacion_nueva extends JInternalBaseClass {
             for (int i = 0; i < 5; i++) {
                 ddlPrioridad.addItem(i + 1);
             }
-            
+
         } catch (Exception ex) {
             msgBoxError(ex.getMessage());
         }
@@ -73,6 +73,9 @@ public class Asignacion_nueva extends JInternalBaseClass {
         jLabel4 = new javax.swing.JLabel();
         btnCancelar = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
+        txtFiltro = new javax.swing.JTextField();
+        btnAplicar = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         ddlVehiculos.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -102,6 +105,15 @@ public class Asignacion_nueva extends JInternalBaseClass {
             }
         });
 
+        btnAplicar.setText("Ablicar");
+        btnAplicar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAplicarActionPerformed(evt);
+            }
+        });
+
+        jLabel5.setText("Filtro");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -118,19 +130,29 @@ public class Asignacion_nueva extends JInternalBaseClass {
                             .addComponent(jLabel1)
                             .addComponent(jLabel3)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(ddlPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ddlVehiculos, 0, 193, Short.MAX_VALUE)
-                            .addComponent(ddlMuelle, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(txtPeso))))
-                .addContainerGap(20, Short.MAX_VALUE))
+                            .addComponent(ddlMuelle, 0, 193, Short.MAX_VALUE)
+                            .addComponent(txtPeso, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(txtFiltro, javax.swing.GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnAplicar)))))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtFiltro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnAplicar)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(ddlVehiculos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -150,7 +172,7 @@ public class Asignacion_nueva extends JInternalBaseClass {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnAceptar))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
 
         pack();
@@ -159,7 +181,7 @@ public class Asignacion_nueva extends JInternalBaseClass {
 private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
     this.closeWindow();
 }//GEN-LAST:event_btnCancelarActionPerformed
-    
+
 private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
     try {
         if (ddlMuelle.getSelectedIndex() > 0 && ddlVehiculos.getSelectedIndex() > 0) {
@@ -172,13 +194,27 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         } else {
             msgBoxError("Los datos ingresados no son correctos, por favor vuelva a intentar");
         }
-    } catch (Exception x) {        
+    } catch (Exception x) {
         msgBoxError(x.getMessage());
-        
+
     }
 }//GEN-LAST:event_btnAceptarActionPerformed
+
+private void btnAplicarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAplicarActionPerformed
+    ddlVehiculos.removeAllItems();
+    for (int i = 0; i < todosLosVehiculos.size(); i++) {
+        ddlVehiculos.addItem(todosLosVehiculos.get(i));
+    }
+    for (int i = 0; i < ddlMuelle.countComponents(); i++) {
+        if (!ddlVehiculos.getItemAt(i).toString().contains(txtFiltro.getText())) {
+            ddlVehiculos.remove(i);
+        }
+    }
+
+}//GEN-LAST:event_btnAplicarActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
+    private javax.swing.JButton btnAplicar;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JComboBox ddlMuelle;
     private javax.swing.JComboBox ddlPrioridad;
@@ -187,6 +223,8 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField txtFiltro;
     private javax.swing.JTextField txtPeso;
     // End of variables declaration//GEN-END:variables
 }

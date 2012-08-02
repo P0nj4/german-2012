@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import logicaDeNegocio.Fachada;
+import utilidades.IObservador;
 
 /**
  *
@@ -30,18 +31,10 @@ public class Vehiculo_eliminar extends JInternalBaseClass {
     /** Creates new form Vehiculo_eliminar */
     public Vehiculo_eliminar(Usuario u) {
         initComponents();
+        
         usu = u;
-        try {
-            listaDeVehiculos = Fachada.getInstance().listarVehiculos(u);
-            DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
-            for (int i = 0; i < listaDeVehiculos.size(); i++) {
-                Vehiculo v = (Vehiculo) listaDeVehiculos.get(i);
-                Object[] row = {v.getMatricula(), v.getMarca(), v.getModelo()};
-                modelo.addRow(row);
-            }
-        } catch (Exception ex) {
-            msgBoxError(ex.getMessage());
-        }
+        actualizar();
+        
     }
 
     /** This method is called from within the constructor to
@@ -155,4 +148,19 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JButton btnCancelar;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    
+    public void actualizar() {
+        try {
+            listaDeVehiculos = Fachada.getInstance().listarVehiculos(usu);
+            DefaultTableModel modelo = (DefaultTableModel) Tabla.getModel();
+            for (int i = 0; i < listaDeVehiculos.size(); i++) {
+                Vehiculo v = (Vehiculo) listaDeVehiculos.get(i);
+                Object[] row = {v.getMatricula(), v.getMarca(), v.getModelo()};
+                modelo.addRow(row);
+            }
+        } catch (Exception ex) {
+            msgBoxError(ex.getMessage());
+        }
+    }
 }

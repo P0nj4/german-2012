@@ -12,8 +12,8 @@ import excepciones.ExcepcionControlada;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import dominio.enums.Criterio;
-import dominio.enums.EstadoDeAsignacion;
+import utilidades.enums.Criterio;
+import utilidades.enums.EstadoDeAsignacion;
 import utilidades.strategy.OrdenPorCriterio;
 
 /**
