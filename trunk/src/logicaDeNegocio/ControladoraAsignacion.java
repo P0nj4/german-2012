@@ -57,6 +57,9 @@ public class ControladoraAsignacion {
             if (prioridad > 5 || prioridad < 1) {
                 throw new ExcepcionControlada("La prioridad ingresada no es correcta");
             }
+            if(m.getCerrado() == true){
+                throw new ExcepcionControlada("No se le puede asignar nuevas descargas a este muelle porque está cerrado");
+            }
 
             ArrayList todosLosMuelles = ControladoraMuelle.getInstance().listarMuelles();
             for (int i = 0; i < todosLosMuelles.size(); i++) {
