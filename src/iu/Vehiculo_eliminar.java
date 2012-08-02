@@ -126,8 +126,7 @@ public class Vehiculo_eliminar extends JInternalBaseClass {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-    this.setVisible(false);
-    remove(this);
+    this.closeWindow();
 }//GEN-LAST:event_btnCancelarActionPerformed
 
 private void TablaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TablaMouseClicked

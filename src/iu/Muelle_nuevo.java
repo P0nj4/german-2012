@@ -128,8 +128,7 @@ public class Muelle_nuevo extends JInternalBaseClass {
 
 private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
     
-    this.setVisible(false);
-    this.dispose();
+    this.closeWindow();
 }//GEN-LAST:event_btnCancelarActionPerformed
     
 private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -139,8 +138,7 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         } else {
             
             Fachada.getInstance().nuevoMuelle(ddlCriterio.getSelectedIndex() + 1, txtDescripcion.getText(), txtNombre.getText());
-            this.setVisible(false);
-            this.dispose();
+            this.closeWindow();
         }
     } catch (Exception ex) {
         msgBoxError(ex.getMessage());

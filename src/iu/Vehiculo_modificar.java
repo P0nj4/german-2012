@@ -181,8 +181,7 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
                 int id = ((Vehiculo) lista.get(ddlVehiculos.getSelectedIndex() - 1)).getid();
 
                 Fachada.getInstance().ModificarVehiculo(id, txtMarca.getText(), txtModelo.getText(), txtMatricula.getText(), usuLogged);
-                setVisible(false);
-                remove(this);
+                this.closeWindow();
             }
         }
     } catch (Exception ex) {
@@ -191,8 +190,7 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 }//GEN-LAST:event_btnAceptarActionPerformed
 
 private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-    setVisible(false);
-    remove(this);
+    this.closeWindow();
 }//GEN-LAST:event_btnCancelarActionPerformed
 
 private void txtMatriculaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtMatriculaActionPerformed

@@ -114,8 +114,7 @@ public class Muelle_eliminar extends JInternalBaseClass  {
     }// </editor-fold>//GEN-END:initComponents
 
 private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-    this.setVisible(false);
-    this.dispose();
+    this.closeWindow();
 }//GEN-LAST:event_btnCancelarActionPerformed
 
 private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
@@ -123,8 +122,7 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
         int selected = Tabla.getSelectedRow();
         
         Fachada.getInstance().eliminarMuelle(((Muelle) muelles.get(selected)));
-        this.setVisible(false);
-        this.dispose();
+        this.closeWindow();
     } catch (Exception ex) {
         msgBoxError(ex.getMessage());
     }
