@@ -129,4 +129,19 @@ public class ControladoraVehiculo {
         }
 
     }
+    
+    
+    public Vehiculo buscarVehiculo(String matricula) throws Exception{
+        try{
+            Vehiculo v = new Vehiculo();
+            v.setMatricula(matricula);
+            v.leer();
+            if(v.getid() == 0){
+                throw new ExcepcionControlada("No se ha encontrado ese vehículo");
+            }
+            return v;
+        }catch(Exception ex){
+        throw new ExcepcionControlada(ex);
+        }
+    }
 }

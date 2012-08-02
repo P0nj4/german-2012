@@ -10,6 +10,7 @@
  */
 package iu;
 
+import dominio.Asignacion;
 import dominio.Muelle;
 import dominio.Vehiculo;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ import sun.applet.resources.MsgAppletViewer;
  * @author German
  */
 public class Asignacion_modificar extends JInternalBaseClass {
-    
+
     ArrayList todosLosMuelles = null;
 
     /** Creates new form Asignacion_modificar */
@@ -29,8 +30,11 @@ public class Asignacion_modificar extends JInternalBaseClass {
         initComponents();
         try {
             todosLosMuelles = Fachada.getInstance().listarMuelles();
-            ddlMuelles.removeAllItems();
-            ddlMuelles.addItem("Seleccionar...");
+            ddlMuelles2.removeAllItems();
+            ddlMuelles2.addItem("Seleccionar...");
+            for (int i = 0; i < todosLosMuelles.size(); i++) {
+                ddlMuelles2.addItem(todosLosMuelles.get(i).toString());
+            }
             ddlVehiculo.removeAllItems();
         } catch (Exception e) {
             msgBoxError(e.getMessage());
@@ -48,21 +52,14 @@ public class Asignacion_modificar extends JInternalBaseClass {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        ddlMuelles = new javax.swing.JComboBox();
         ddlVehiculo = new javax.swing.JComboBox();
         btnCancelar = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
+        ddlMuelles2 = new javax.swing.JComboBox();
 
         jLabel1.setText("Muelle");
 
         jLabel2.setText("Vehículo");
-
-        ddlMuelles.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        ddlMuelles.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ddlMuellesActionPerformed(evt);
-            }
-        });
 
         ddlVehiculo.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -80,6 +77,13 @@ public class Asignacion_modificar extends JInternalBaseClass {
             }
         });
 
+        ddlMuelles2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ddlMuelles2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ddlMuelles2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -91,14 +95,14 @@ public class Asignacion_modificar extends JInternalBaseClass {
                         .addComponent(btnAceptar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancelar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(ddlVehiculo, 0, 233, Short.MAX_VALUE)
-                            .addComponent(ddlMuelles, javax.swing.GroupLayout.Alignment.LEADING, 0, 233, Short.MAX_VALUE))))
+                        .addComponent(ddlMuelles2, 0, 238, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ddlVehiculo, 0, 235, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -106,49 +110,58 @@ public class Asignacion_modificar extends JInternalBaseClass {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ddlMuelles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(ddlMuelles2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(ddlVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addComponent(jLabel2)
+                    .addComponent(ddlVehiculo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
                     .addComponent(btnAceptar))
-                .addContainerGap(27, Short.MAX_VALUE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
 private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
-    
+    try {
+        int selected = ddlVehiculo.getSelectedIndex();
+        if (ddlMuelles2.getSelectedIndex() != 0) {
+            Muelle m = (Muelle) todosLosMuelles.get(ddlMuelles2.getSelectedIndex() - 1);
+            Asignacion a = (Asignacion) m.getAsignaciones().get(selected);
+            Fachada.getInstance().modificarAsignacion(m, a);
+        }
+
+    } catch (Exception ex) {
+        msgBoxError(ex.getMessage());
+    }
 }//GEN-LAST:event_btnAceptarActionPerformed
-    
-private void ddlMuellesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddlMuellesActionPerformed
+
+private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    this.closeWindow();
+}//GEN-LAST:event_btnCancelarActionPerformed
+
+private void ddlMuelles2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddlMuelles2ActionPerformed
     try {
         ddlVehiculo.removeAllItems();
-        if (ddlMuelles.getSelectedIndex() != 0) {
-            Muelle m = (Muelle) todosLosMuelles.get(ddlMuelles.getSelectedIndex() - 1);
+        if (ddlMuelles2.getItemCount() > 0 && ddlMuelles2.getSelectedIndex() != 0) {
+            Muelle m = (Muelle) todosLosMuelles.get(ddlMuelles2.getSelectedIndex() - 1);
             for (int i = 0; i < m.getAsignaciones().size(); i++) {
-                Vehiculo v = (Vehiculo) m.getAsignaciones().get(i);
-                ddlVehiculo.addItem(v.toString());
+                Asignacion v = (Asignacion) m.getAsignaciones().get(i);
+                ddlVehiculo.addItem(v.getVehiculo().toString());
             }
         }
     } catch (Exception ex) {
         msgBoxError(ex.getMessage());
     }
-}//GEN-LAST:event_ddlMuellesActionPerformed
-
-private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-this.closeWindow();
-}//GEN-LAST:event_btnCancelarActionPerformed
-
+}//GEN-LAST:event_ddlMuelles2ActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAceptar;
     private javax.swing.JButton btnCancelar;
-    private javax.swing.JComboBox ddlMuelles;
+    private javax.swing.JComboBox ddlMuelles2;
     private javax.swing.JComboBox ddlVehiculo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
