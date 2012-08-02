@@ -86,13 +86,13 @@ public class Vehiculo implements IPersistente {
 
     @Override
     public String getUpdateSQL() {
-       return "Update Vehiculos set vehiculoMarca ='" + marca + "', vehiculoMatricula='" + matricula + "', vehiculoModelo='" + modelo + "' where vehiculoID =" + this.getid();
+        return "Update Vehiculos set vehiculoMarca ='" + marca + "', vehiculoMatricula='" + matricula + "', vehiculoModelo='" + modelo + "' where vehiculoID =" + this.getid();
     }
 
     @Override
     public String getDeleteSQL() {
         return "Update Vehiculos set borrado = 1 where vehiculoID =" + this.getid();
-        
+
     }
 
     @Override
@@ -100,7 +100,12 @@ public class Vehiculo implements IPersistente {
         String sql = "Select m.* From Vehiculos m where m.borrado = 0";
         if (this.getid() != 0) {
             sql = sql + " and m.vehiculoID = " + this.getid();
+        } else {
+            if (matricula != null && !matricula.isEmpty()) {
+                sql = sql + " and m.vehiculoMatricula = '" + this.matricula + "'";
+            }
         }
+
         return sql;
     }
 

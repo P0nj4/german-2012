@@ -46,6 +46,9 @@ public class Fachada {
         ControladoraVehiculo.getInstance().eliminarVehiculo(id);
     }
 
+    public Vehiculo buscarVehiculo(String matricula) throws Exception{
+         return ControladoraVehiculo.getInstance().buscarVehiculo(matricula);
+     }
     
     /****************************/
     public void nuevoMuelle(int c, String descripcion, String nombre) throws Exception {
@@ -71,6 +74,7 @@ public class Fachada {
         ControladoraMuelle.getInstance().eliminarObservadorAMuelles(o);
     }
     
+     
     /*******************************/
     public void nuevaAsignacion(Muelle m, Usuario u, Vehiculo v, String pesoMercancia, int prioridad) throws Exception {
         ControladoraAsignacion.getInstance().nuevaAsignacion(m, u, v, pesoMercancia, prioridad);

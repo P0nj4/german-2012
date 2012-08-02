@@ -104,6 +104,8 @@ public class ControladoraAsignacion {
             }
             
             m.eliminarAsignacion(asignacion);
+            asignacion.setEstado(EstadoDeAsignacion.Finalizado.getCode());
+            asignacion.guardar();
             //sigue con el siguiente en la cola del muelle
             if (m.getAsignaciones().size() > 0) {
                 OrdenPorCriterio orden = OrdenPorCriterio.getStrategy(3);		
@@ -116,10 +118,6 @@ public class ControladoraAsignacion {
                         i = m.getAsignaciones().size()+1;
                     }
                 }
-            }else{
-                Asignacion nuevaAsignacion = ((Asignacion) m.getAsignaciones().get(0));
-                nuevaAsignacion.setEstado(EstadoDeAsignacion.Descargando.getCode());
-                nuevaAsignacion.guardar();
             }
             asignacion = null;
         } catch (ExcepcionControlada ex) {

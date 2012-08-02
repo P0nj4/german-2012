@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import persistencia.IPersistente;
 import persistencia.ManejadorBD;
 
-public class Muelle  extends utilidades.Observable implements IPersistente {
+public class Muelle extends utilidades.Observable implements IPersistente {
 
     private int id;
     private String nombre;
@@ -19,14 +19,20 @@ public class Muelle  extends utilidades.Observable implements IPersistente {
         asignaciones = new ArrayList();
     }
 
-    public void agregarNuevaAsignacion(Asignacion a){
+    public void agregarNuevaAsignacion(Asignacion a) {
         this.asignaciones.add(a);
         notificarObservadores();
     }
-    public void eliminarAsignacion(Asignacion a){
-        this.asignaciones.remove(a);
+
+    public void eliminarAsignacion(Asignacion a) {
+        for (int i = 0; i < asignaciones.size(); i++) {
+            if (((Asignacion) asignaciones.get(i)).getid() == a.getid()) {
+                this.asignaciones.remove(i);
+            }
+        }        
         notificarObservadores();
     }
+
     public ArrayList getAsignaciones() {
         //aca debería ordenar
         if (asignaciones == null) {
@@ -131,9 +137,9 @@ public class Muelle  extends utilidades.Observable implements IPersistente {
             if (nombre == null && descripcion == null) {
                 this.setDescripcion(rs.getString("muelleDescripcion"));
                 this.setNombre(rs.getString("muelleNombre"));
-                this.setid(rs.getInt("muelleID"));                
+                this.setid(rs.getInt("muelleID"));
                 this.setCriterio(rs.getInt("criterioID"));
-                
+
             }
         } catch (Exception ex) {
             System.out.println("Error leerDesdeResultSet.\n" + ex.getMessage());
