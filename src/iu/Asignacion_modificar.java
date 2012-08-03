@@ -16,6 +16,7 @@ import dominio.Vehiculo;
 import java.util.ArrayList;
 import logicaDeNegocio.Fachada;
 import sun.applet.resources.MsgAppletViewer;
+import utilidades.enums.EstadoDeAsignacion;
 
 /**
  *
@@ -152,7 +153,9 @@ private void ddlMuelles2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
             Muelle m = (Muelle) todosLosMuelles.get(ddlMuelles2.getSelectedIndex() - 1);
             for (int i = 0; i < m.getAsignaciones().size(); i++) {
                 Asignacion v = (Asignacion) m.getAsignaciones().get(i);
-                ddlVehiculo.addItem(v.getVehiculo().toString());
+                if (v.getEstado() == EstadoDeAsignacion.Descargando.getCode()) {
+                    ddlVehiculo.addItem(v.getVehiculo().toString());
+                }
             }
         }
     } catch (Exception ex) {

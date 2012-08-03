@@ -11,6 +11,7 @@
 package iu;
 
 import dominio.Usuario;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import logicaDeNegocio.Fachada;
 
@@ -121,6 +122,7 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             this.setVisible(false);
             frm.setVisible(true);
             this.dispose();
+            frm.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         }
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Advertencia", JOptionPane.ERROR_MESSAGE);
