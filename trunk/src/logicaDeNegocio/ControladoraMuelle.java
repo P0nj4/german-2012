@@ -4,10 +4,12 @@
  */
 package logicaDeNegocio;
 
+import dominio.Asignacion;
 import dominio.Muelle;
 import dominio.Vehiculo;
 import excepciones.ExcepcionControlada;
 import java.util.ArrayList;
+import utilidades.IObservador;
 
 /**
  *
@@ -17,6 +19,7 @@ public class ControladoraMuelle {
 
     private ArrayList todosLosMuelles;
     private static ControladoraMuelle instancia;
+    private IObservador obs = null;
 
     private ControladoraMuelle() {
         todosLosMuelles = new ArrayList();
@@ -121,9 +124,20 @@ public class ControladoraMuelle {
 
     public void agregarObservadorAMuelles(utilidades.IObservador o) throws Exception {
         try {
-            listarMuelles();
-            for (int i = 0; i < todosLosMuelles.size(); i++) {
-                ((Muelle) todosLosMuelles.get(i)).agregarObservador(o);
+            if (o == null) {
+                o = obs;
+            } else {
+                obs = o;
+            }
+            if (o != null) {
+                listarMuelles();
+                for (int i = 0; i < todosLosMuelles.size(); i++) {
+                    ((Muelle) todosLosMuelles.get(i)).agregarObservador(o);
+                    ArrayList asignaciones = ((Muelle) todosLosMuelles.get(i)).getAsignaciones();
+                    for (int j = 0; j < asignaciones.size(); j++) {
+                        ((Asignacion) asignaciones.get(j)).getVehiculo().agregarObservador(o);
+                    }
+                }
             }
         } catch (Exception ex) {
             throw new ExcepcionControlada(ex);
@@ -140,13 +154,13 @@ public class ControladoraMuelle {
             throw new ExcepcionControlada(ex);
         }
     }
-    
-    public boolean MuelleTieneVehiculo(Vehiculo v) throws Exception{
-        try{
-            for(int i = 0; i < todosLosMuelles.size(); i++){
-                ArrayList asignaciones = (((Muelle)todosLosMuelles.get(i)).getAsignaciones());
-                for(int j =0; j < asignaciones.size(); j++){
-                    if(((Vehiculo)asignaciones.get(j)).getid() == v.getid()){
+
+    public boolean MuelleTieneVehiculo(Vehiculo v) throws Exception {
+        try {
+            for (int i = 0; i < todosLosMuelles.size(); i++) {
+                ArrayList asignaciones = (((Muelle) todosLosMuelles.get(i)).getAsignaciones());
+                for (int j = 0; j < asignaciones.size(); j++) {
+                    if (((Vehiculo) asignaciones.get(j)).getid() == v.getid()) {
                         return true;
                     }
                 }
@@ -154,6 +168,22 @@ public class ControladoraMuelle {
             return false;
         } catch (Exception ex) {
             throw new ExcepcionControlada(ex);
+        }
+    }
+
+    public void actualizarVehiculoAsignado(Vehiculo v) throws Exception {
+        listarMuelles();
+        agregarObservadorAMuelles(null);
+        for (int i = 0; i < todosLosMuelles.size(); i++) {
+            ArrayList asginaciones = ((Muelle) todosLosMuelles.get(i)).getAsignaciones();
+            for (int j = 0; j < asginaciones.size(); j++) {
+                Asignacion vloop = (Asignacion) asginaciones.get(i);
+                if (v.getid() == vloop.getVehiculo().getid()) {
+                    vloop.getVehiculo().setMarca(v.getMarca());
+                    vloop.getVehiculo().setModelo(v.getModelo());
+                    vloop.getVehiculo().setMatricula(v.getMatricula());
+                }
+            }
         }
     }
 }

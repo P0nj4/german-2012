@@ -14,7 +14,11 @@ import dominio.Muelle;
 import dominio.Usuario;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.JRootPane;
 import javax.swing.WindowConstants;
 import logicaDeNegocio.Fachada;
 
@@ -65,6 +69,8 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         //this.setUndecorated(true);
+        
+        this.desktop.removeAll();
 
 
 
@@ -93,8 +99,12 @@ public class Principal extends javax.swing.JFrame {
                     if (!pendientes) {
                         System.exit(0);
                     } else {
+                        
                         Principal p = new Principal(loggedUser);
-                        p.setVisible(true);
+                        //p.setVisible(true);
+                        
+                        
+                         
                     }
 
                 } catch (Exception ex) {

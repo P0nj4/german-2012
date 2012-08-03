@@ -91,6 +91,8 @@ public class ControladoraAsignacion {
 
             a.guardar();
             m.agregarNuevaAsignacion(a);
+            OrdenPorCriterio orden = OrdenPorCriterio.getStrategy(m.getCriterio());
+	    Collections.sort(m.getAsignaciones(), orden);
             
 
         } catch (ExcepcionControlada ex) {
@@ -111,7 +113,7 @@ public class ControladoraAsignacion {
             asignacion.guardar();
             //sigue con el siguiente en la cola del muelle
             if (m.getAsignaciones().size() > 0) {
-                OrdenPorCriterio orden = OrdenPorCriterio.getStrategy(3);		
+                OrdenPorCriterio orden = OrdenPorCriterio.getStrategy(m.getCriterio());
 		Collections.sort(m.getAsignaciones(), orden);
                 for(int i =0; i < m.getAsignaciones().size(); i++){
                     Asignacion nuevaAsignacion = ((Asignacion) m.getAsignaciones().get(i));
@@ -129,4 +131,6 @@ public class ControladoraAsignacion {
             throw new ExcepcionControlada(ex);
         }
     }
+    
+    
 }

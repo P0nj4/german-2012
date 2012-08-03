@@ -39,7 +39,7 @@ public class ControladoraVehiculo {
             if (ControladoraMuelle.getInstance().MuelleTieneVehiculo(v)) {
                 throw new ExcepcionControlada("El vehículo no puede ser eliminado dado que esta en una cola de espera");
             } else {
-                v.eliminar();
+                v.eliminar();                
             }
         } catch (ExcepcionControlada e) {
             throw e;
@@ -50,8 +50,10 @@ public class ControladoraVehiculo {
 
     public void NuevoVehiculo(String marca, String modelo, String matricula, Usuario u) throws Exception {
         try {
-            if (u.getTipoDeUsuario() != TipoDeUsuario.Administrador.getCode()) {
-                throw new ExcepcionControlada("Usted no tiene permisos para realizar esta acción");
+            if (u != null) {
+                if (u.getTipoDeUsuario() != TipoDeUsuario.Administrador.getCode()) {
+                    throw new ExcepcionControlada("Usted no tiene permisos para realizar esta acción");
+                }
             }
             if (marca == null || marca.trim().length() == 0) {
                 throw new ExcepcionControlada("La marca no puede ser vacía");
@@ -102,6 +104,7 @@ public class ControladoraVehiculo {
             v.setMatricula(matricula);
             v.setModelo(modelo);
             v.guardar();
+            ControladoraMuelle.getInstance().actualizarVehiculoAsignado(v);
 
         } catch (ExcepcionControlada e) {
             throw e;
@@ -145,4 +148,6 @@ public class ControladoraVehiculo {
             throw new ExcepcionControlada(ex);
         }
     }
+
+    
 }

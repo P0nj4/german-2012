@@ -23,9 +23,9 @@ import utilidades.enums.EstadoDeAsignacion;
  * @author German
  */
 public class ListaSiempreVisible extends JInternalBaseClass implements utilidades.IObservador {
-    
-    ArrayList muelles = null;
 
+    ArrayList muelles = null;
+Muelle lastMuelle = null;
     /** Creates new form ListaSiempreVisible */
     public ListaSiempreVisible() {
         initComponents();
@@ -38,31 +38,33 @@ public class ListaSiempreVisible extends JInternalBaseClass implements utilidade
                 ddlMuelles.addItem(muelles.get(i).toString());
             }
             actualizarTablar();
-            
-            
+
+
         } catch (Exception ex) {
             msgBoxError(ex.getMessage());
         }
     }
-    
+
     private void actualizarTablar() {
         try {
             if (ddlMuelles.getSelectedIndex() > 0) {
-                
+
                 Muelle m = (Muelle) muelles.get(ddlMuelles.getSelectedIndex() - 1);
+                
                 DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-                for (int i = 0; i < modelo.getRowCount(); i++) {
+                for (int i = 0; i < modelo.getRowCount() ; i++) {
                     modelo.removeRow(i);
                 }
-                
+
                 for (int i = 0; i < m.getAsignaciones().size(); i++) {
                     Asignacion a = (Asignacion) m.getAsignaciones().get(i);
-                    
+
                     EstadoDeAsignacion o = utilidades.enums.EstadoDeAsignacion.values()[a.getEstado() - 1];
                     Vehiculo v = (Vehiculo) a.getVehiculo();
                     Object[] row = {v.getMatricula(), v.getMarca(), v.getModelo(), o.toString()};
                     modelo.addRow(row);
                 }
+                lastMuelle = m;
             }
         } catch (Exception ex) {
             this.msgBoxError("Hubo un error");
@@ -87,6 +89,11 @@ public class ListaSiempreVisible extends JInternalBaseClass implements utilidade
         jLabel1.setText("Muelle");
 
         ddlMuelles.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ddlMuelles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ddlMuellesActionPerformed(evt);
+            }
+        });
 
         tabla.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -136,11 +143,15 @@ public class ListaSiempreVisible extends JInternalBaseClass implements utilidade
                     .addComponent(ddlMuelles, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(106, Short.MAX_VALUE))
+                .addContainerGap(110, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+private void ddlMuellesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ddlMuellesActionPerformed
+    actualizarTablar();
+}//GEN-LAST:event_ddlMuellesActionPerformed
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox ddlMuelles;
     private javax.swing.JLabel jLabel1;

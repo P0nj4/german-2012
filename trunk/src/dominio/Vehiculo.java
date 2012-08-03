@@ -5,8 +5,9 @@ import java.util.ArrayList;
 
 import persistencia.IPersistente;
 import persistencia.ManejadorBD;
+import utilidades.Observable;
 
-public class Vehiculo implements IPersistente {
+public class Vehiculo extends Observable implements IPersistente {
 
     private int id;
     private String marca;
@@ -14,11 +15,12 @@ public class Vehiculo implements IPersistente {
     private String modelo;
 
     public String getMarca() {
-        return marca;
+        return marca;        
     }
 
     public void setMarca(String marca) {
         this.marca = marca;
+        this.notificarObservadores();
     }
 
     public String getMatricula() {
@@ -27,6 +29,7 @@ public class Vehiculo implements IPersistente {
 
     public void setMatricula(String matricula) {
         this.matricula = matricula;
+       this.notificarObservadores();
     }
 
     public String getModelo() {
@@ -35,6 +38,7 @@ public class Vehiculo implements IPersistente {
 
     public void setModelo(String modelo) {
         this.modelo = modelo;
+        this.notificarObservadores();
     }
 
     @Override
