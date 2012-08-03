@@ -17,6 +17,6 @@ public class OrdenPorPrioridad extends OrdenPorCriterio {
 		Asignacion a1 = (Asignacion) arg0;
 		Asignacion a2 = (Asignacion) arg1;
 
-		return a1.getPrioridad() - a2.getPrioridad();
+		return a2.getPrioridad() - a1.getPrioridad();
 	}
 }

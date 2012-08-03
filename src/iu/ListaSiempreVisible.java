@@ -25,7 +25,8 @@ import utilidades.enums.EstadoDeAsignacion;
 public class ListaSiempreVisible extends JInternalBaseClass implements utilidades.IObservador {
 
     ArrayList muelles = null;
-Muelle lastMuelle = null;
+    Muelle lastMuelle = null;
+
     /** Creates new form ListaSiempreVisible */
     public ListaSiempreVisible() {
         initComponents();
@@ -50,10 +51,10 @@ Muelle lastMuelle = null;
             if (ddlMuelles.getSelectedIndex() > 0) {
 
                 Muelle m = (Muelle) muelles.get(ddlMuelles.getSelectedIndex() - 1);
-                
+
                 DefaultTableModel modelo = (DefaultTableModel) tabla.getModel();
-                for (int i = 0; i < modelo.getRowCount() ; i++) {
-                    modelo.removeRow(i);
+                while (modelo.getRowCount() > 0) {
+                    modelo.removeRow(0);
                 }
 
                 for (int i = 0; i < m.getAsignaciones().size(); i++) {
