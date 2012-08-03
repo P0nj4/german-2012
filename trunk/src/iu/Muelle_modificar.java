@@ -155,9 +155,9 @@ private void ddlMuellesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             Muelle m = (Muelle) muelles.get(ddlMuelles.getSelectedIndex() - 1);
 
             for (int i = 0; i < utilidades.enums.Criterio.values().length; i++) {
-                ddlCriterios.addItem(utilidades.enums.Criterio.values()[i].toString());
-                ddlCriterios.setSelectedIndex(m.getCriterio() - 1);
+                ddlCriterios.addItem(utilidades.enums.Criterio.values()[i].toString());                
             }
+            ddlCriterios.setSelectedIndex(m.getCriterio() - 1);
             this.txtDescripcion.setText(m.getDescripcion());
             this.txtNombre.setText(m.getNombre());
         }
