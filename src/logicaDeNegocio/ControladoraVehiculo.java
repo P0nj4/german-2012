@@ -68,7 +68,7 @@ public class ControladoraVehiculo {
             v.setMarca(marca);
             v.setMatricula(matricula);
             v.setModelo(modelo);
-            v.guardar();
+            v.guardar(0);
         } catch (ExcepcionControlada e) {
             throw e;
         } catch (Exception ex) {
@@ -103,7 +103,7 @@ public class ControladoraVehiculo {
             v.setMarca(marca);
             v.setMatricula(matricula);
             v.setModelo(modelo);
-            v.guardar();
+            v.guardar(0);
             ControladoraMuelle.getInstance().actualizarVehiculoAsignado(v);
 
         } catch (ExcepcionControlada e) {

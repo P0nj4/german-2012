@@ -47,7 +47,7 @@ public class ControladoraMuelle {
             m.setCriterio(c);
             m.setDescripcion(descripcion);
             m.setNombre(nombre);
-            m.guardar();
+            m.guardar(0);
             todosLosMuelles.add(m);
             m.agregarObservador(obs);
             m.notificarObservadores();
@@ -80,7 +80,7 @@ public class ControladoraMuelle {
             }
             m.setDescripcion(descripcion);
             m.setNombre(nombre);            
-            m.guardar();
+            m.guardar(0);
         } catch (ExcepcionControlada ex) {
             throw ex;
         } catch (Exception ex) {

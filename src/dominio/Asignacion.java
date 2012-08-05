@@ -100,7 +100,12 @@ public class Asignacion implements IPersistente {
     }
 
     @Override
-    public void guardar() throws Exception {
+    public void guardar(int parentID) throws Exception {
+        if (parentID == -1) {
+            this.parentId = this.parentId;
+        } else {
+            this.parentId = parentID;
+        }
         if (this.getid() == 0) {
             ManejadorBD.getInstancia().agregar(this);
         } else {
@@ -152,7 +157,7 @@ public class Asignacion implements IPersistente {
                 + ", "
                 + this.getVehiculo().getid()
                 + ", "
-                + this.getParentId()
+                + this.parentId
                 + ","
                 + this.getUsuario().getid()
                 + ", " + this.estado + ")";
@@ -184,7 +189,7 @@ public class Asignacion implements IPersistente {
             sql += "      ,asignacionFechaFinDescarga = '" + fechafin + "' ";
         }
         sql += "      ,vehiculoID =  " + this.vehiculo.getid()
-                + "      ,muelleID = " + this.getParentId()
+                + "      ,muelleID = " + this.parentId
                 + "      ,usuarioID = " + this.usuario.getid()
                 + "      ,estadoDeAsignacionID = " + estado
                 + " Where Asignaciones.asignacionID = " + this.getid();
@@ -210,7 +215,7 @@ public class Asignacion implements IPersistente {
         String sql = "Select * from Asignaciones a, Usuarios u Vehiculos v"
                 + "where "
                 + "a.usuarioID = u.usuarioID and "
-                + "a.vehiculoID = v.vehiculoID and "                
+                + "a.vehiculoID = v.vehiculoID and "
                 + "a.borrado = 0";
         if (parentId != 0) {
             sql += " and a.muelleID = " + this.parentId;
@@ -219,9 +224,9 @@ public class Asignacion implements IPersistente {
     }
 
     @Override
-    public void leerDesdeResultSet(ResultSet rs) throws Exception {        
+    public void leerDesdeResultSet(ResultSet rs) throws Exception {
         this.setEstado(rs.getInt("estadoDeAsignacionID"));
-        
+
         this.setFechaDeCreacion(rs.getDate("asignacionFechaCreacion"));
         this.setFechaInicioDescarga(rs.getDate("asignacionFechaInicioDescarga"));
         this.setFechaFinDescarga(rs.getDate("asignacionFechaFinDescarga"));
@@ -243,22 +248,12 @@ public class Asignacion implements IPersistente {
 
     @Override
     public IPersistente getNuevo() {
-        
+
         return new Asignacion();
     }
 
     @Override
     public String getTableName(boolean singular) {
         return (singular ? "asignacion" : "Asignaciones");
-    }
-
-    @Override
-    public int getParentId() {
-        return this.parentId;
-    }
-
-    @Override
-    public void setParentId(int id) {
-        this.parentId = id;
     }
 }
