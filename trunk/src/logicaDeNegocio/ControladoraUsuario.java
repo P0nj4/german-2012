@@ -1,7 +1,6 @@
 package logicaDeNegocio;
 
-import java.io.UnsupportedEncodingException;
-import java.security.NoSuchAlgorithmException;
+
 import java.util.ArrayList;
 
 import dominio.Usuario;
@@ -24,6 +23,14 @@ public class ControladoraUsuario {
         return instancia;
     }
 
+    /***
+     * Metodo encargado de validar si el usuario ingresado existe.
+     * En caso de que exista retorna el mismo
+     * @param usuario nombre de usuario
+     * @param password contraseña de usuario
+     * @return usuario
+     * @throws Exception 
+     */
     public Usuario loguearUsuario(String usuario, String password) throws Exception {
         try {
             if (usuario == null || usuario.trim().length() == 0) {
@@ -34,14 +41,9 @@ public class ControladoraUsuario {
             }
             String MD5_pass = ConvertidorMD5.MD5(password);
             Usuario u = new Usuario();
-            ArrayList todosLosUsuarios = u.obtenerTodos();
-            for (int i = 0; i < todosLosUsuarios.size(); i++) {
-                Usuario usu = (Usuario) todosLosUsuarios.get(i);
-                if (usu.getPassword().equals(MD5_pass) && usu.getNombre().equals(usuario)) {
-                    u = usu;
-                    i = todosLosUsuarios.size();
-                }
-            }
+            u.setNombre(usuario);
+            u.setPassword(MD5_pass);
+            u.leer();
             if (u.getid() == 0) {
                 throw new ExcepcionControlada("Usuario y/o contraseña no son correctos");
             } else {
