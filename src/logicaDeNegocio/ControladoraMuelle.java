@@ -49,6 +49,8 @@ public class ControladoraMuelle {
             m.setNombre(nombre);
             m.guardar();
             todosLosMuelles.add(m);
+            m.agregarObservador(obs);
+            m.notificarObservadores();
         } catch (ExcepcionControlada ex) {
             throw ex;
         } catch (Exception ex) {
@@ -56,7 +58,7 @@ public class ControladoraMuelle {
         }
     }
 
-    public void modificarMuelle(int id, int c, String descripcion, String nombre) throws Exception {
+    public void modificarMuelle(Muelle m, int c, String descripcion, String nombre) throws Exception {
         try {
             if (descripcion == null || descripcion.trim().length() == 0) {
                 throw new ExcepcionControlada("La descripción no puede ser vacía");
@@ -67,14 +69,17 @@ public class ControladoraMuelle {
             if (c < 1) {
                 throw new ExcepcionControlada("Seleccione un criterio correcto");
             }
-            if (id == 0) {
+            if (m == null) {
                 throw new ExcepcionControlada("El muelle seleccionado no es correcto");
             }
-            Muelle m = new Muelle();
-            m.setCriterio(c);
+            
+            if (m.getAsignaciones().size() == 0) {
+                m.setCriterio(c);
+            } else {
+                throw new ExcepcionControlada("No se puede modificar el criterio de orden dado que este muelle tiene asignaciones pendientes");
+            }
             m.setDescripcion(descripcion);
-            m.setNombre(nombre);
-            m.setid(id);
+            m.setNombre(nombre);            
             m.guardar();
         } catch (ExcepcionControlada ex) {
             throw ex;
@@ -92,6 +97,7 @@ public class ControladoraMuelle {
 
             if (m.getAsignaciones().size() == 0) {
                 m.eliminar();
+                m.notificarObservadores();
                 //elimino el muelle de la lista de muelles disponibles               
                 todosLosMuelles.remove(m);
             } else {
@@ -111,9 +117,7 @@ public class ControladoraMuelle {
                 Muelle m = new Muelle();
                 todosLosMuelles = m.obtenerTodos();
             }
-            if (todosLosMuelles.isEmpty()) {
-                throw new ExcepcionControlada("Aún no existen muelles");
-            }
+
             return todosLosMuelles;
         } catch (ExcepcionControlada ex) {
             throw ex;

@@ -12,7 +12,6 @@ import excepciones.ExcepcionControlada;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
-import utilidades.enums.Criterio;
 import utilidades.enums.EstadoDeAsignacion;
 import utilidades.strategy.OrdenPorCriterio;
 
@@ -34,6 +33,15 @@ public class ControladoraAsignacion {
         return instancia;
     }
 
+    /***
+     * Crea una nueva asignación
+     * @param m muelle
+     * @param u usuario creador
+     * @param v vehiculo a asignar
+     * @param pesoMercancia peso de la mercancia cotenida en el vehículo
+     * @param prioridad prioridad asignada por el usuario
+     * @throws Exception 
+     */
     public void nuevaAsignacion(Muelle m, Usuario u, Vehiculo v, String pesoMercancia, int prioridad) throws Exception {
         try {
             long pesoMercanciaReal = 0;
@@ -57,19 +65,18 @@ public class ControladoraAsignacion {
             if (prioridad > 5 || prioridad < 1) {
                 throw new ExcepcionControlada("La prioridad ingresada no es correcta");
             }
-            if(m.getCerrado() == true){
+            if (m.getCerrado() == true) {
                 throw new ExcepcionControlada("No se le puede asignar nuevas descargas a este muelle porque está cerrado");
             }
 
+            //valido que el vehiculo no se encuentre descargando o en cola de otro muelle
             ArrayList todosLosMuelles = ControladoraMuelle.getInstance().listarMuelles();
             for (int i = 0; i < todosLosMuelles.size(); i++) {
                 Muelle mLoop = (Muelle) todosLosMuelles.get(i);
                 for (int j = 0; j < mLoop.getAsignaciones().size(); j++) {
                     Asignacion aLoop = (Asignacion) mLoop.getAsignaciones().get(j);
                     if (aLoop.getVehiculo().getid() == v.getid()) {
-                        if (aLoop.getEstado()== EstadoDeAsignacion.Pendiente.getCode() || aLoop.getEstado() == EstadoDeAsignacion.Descargando.getCode()) {
-                            throw new ExcepcionControlada("El vehículo seleccionado se encuentra " + EstadoDeAsignacion.values()[aLoop.getEstado() - 1]  + " En otro muelle ");
-                        }
+                        throw new ExcepcionControlada("El vehículo seleccionado se encuentra " + EstadoDeAsignacion.values()[aLoop.getEstado() - 1] + " En otro muelle ");
                     }
                 }
             }
@@ -80,8 +87,8 @@ public class ControladoraAsignacion {
                 a.setEstado(EstadoDeAsignacion.Descargando.getCode());
                 a.setFechaInicioDescarga(new Date());
 
-            } else {                
-                a.setEstado( EstadoDeAsignacion.Pendiente.getCode());
+            } else {
+                a.setEstado(EstadoDeAsignacion.Pendiente.getCode());
             }
             a.setParentId(m.getid());
             a.setPesoMercancia(pesoMercanciaReal);
@@ -92,8 +99,14 @@ public class ControladoraAsignacion {
             a.guardar();
             m.agregarNuevaAsignacion(a);
             OrdenPorCriterio orden = OrdenPorCriterio.getStrategy(m.getCriterio());
-	    Collections.sort(m.getAsignaciones(), orden);
             
+            Asignacion temp = (Asignacion) m.getAsignaciones().get(0);
+            m.getAsignaciones().remove(0);
+            
+            Collections.sort(m.getAsignaciones(), orden);
+            
+            m.getAsignaciones().add(0, temp);
+            m.notificarObservadores();
 
         } catch (ExcepcionControlada ex) {
             throw ex;
@@ -102,35 +115,43 @@ public class ControladoraAsignacion {
         }
     }
 
+    /****
+     * Metodo encargado de cambiar el estado de la asignacion actual y tomar la asignación del próximo vehiculo en cola para actualizar su estado.
+     * Se pordría decir que este metodo es quien hace la descarga
+     * @param m muelle
+     * @param asignacion
+     * @throws Exception 
+     */
     public void modificarAsignacion(Muelle m, Asignacion asignacion) throws Exception {
         try {
             if (m == null || m.getid() < 1) {
                 throw new ExcepcionControlada("El muelle seleccionado no es correcto");
             }
-            
+
             m.eliminarAsignacion(asignacion);
             asignacion.setEstado(EstadoDeAsignacion.Finalizado.getCode());
             asignacion.guardar();
+            asignacion = null;
+
             //sigue con el siguiente en la cola del muelle
             if (m.getAsignaciones().size() > 0) {
                 OrdenPorCriterio orden = OrdenPorCriterio.getStrategy(m.getCriterio());
-		Collections.sort(m.getAsignaciones(), orden);
-                for(int i =0; i < m.getAsignaciones().size(); i++){
+                Collections.sort(m.getAsignaciones(), orden);
+                for (int i = 0; i < m.getAsignaciones().size(); i++) {
                     Asignacion nuevaAsignacion = ((Asignacion) m.getAsignaciones().get(i));
-                    if(nuevaAsignacion.getEstado() == EstadoDeAsignacion.Pendiente.getCode()){                        
+                    if (nuevaAsignacion.getEstado() == EstadoDeAsignacion.Pendiente.getCode()) {
                         nuevaAsignacion.setEstado(EstadoDeAsignacion.Descargando.getCode());
                         nuevaAsignacion.guardar();
-                        i = m.getAsignaciones().size()+1;
+                        i = m.getAsignaciones().size() + 1;
                     }
                 }
             }
-            asignacion = null;
+            m.notificarObservadores();
+
         } catch (ExcepcionControlada ex) {
             throw ex;
         } catch (Exception ex) {
             throw new ExcepcionControlada(ex);
         }
     }
-    
-    
 }

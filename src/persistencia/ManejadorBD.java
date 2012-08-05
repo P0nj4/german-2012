@@ -66,6 +66,9 @@ public class ManejadorBD {
         int id = -1;
         try {
             conectar();
+            if (p.getTableName(true).isEmpty()) {
+                return -1;
+            }
             String sql = "SELECT max(" + p.getTableName(true).toLowerCase() + "ID) as valor FROM " + p.getTableName(false) + "; ";
             ResultSet rs = this.obtenerResultSet(sql);
             while (rs.next()) {
@@ -113,10 +116,10 @@ public class ManejadorBD {
         try {
             conectar();
             ResultSet rs = this.obtenerResultSet(p.getSelectSQL());
-            
+
             while (rs.next()) {
                 IPersistente aux = p.getNuevo();
-                
+
                 aux.leerDesdeResultSet(rs);
                 ret.add(aux);
             }

@@ -5,6 +5,7 @@
 package utilidades.strategy;
 
 import dominio.Asignacion;
+import utilidades.enums.EstadoDeAsignacion;
 
 /**
  *
@@ -16,7 +17,7 @@ public class OrdenPorPrioridad extends OrdenPorCriterio {
 	public int compare(Object arg0, Object arg1) {
 		Asignacion a1 = (Asignacion) arg0;
 		Asignacion a2 = (Asignacion) arg1;
-
+                
 		return a2.getPrioridad() - a1.getPrioridad();
 	}
 }
