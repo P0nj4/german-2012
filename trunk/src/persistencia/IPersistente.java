@@ -7,9 +7,8 @@ public interface IPersistente {
 
 	public int getid();        
 	public void setid(int valor);
-        public int getParentId();
-        public void setParentId(int id);
-	public void guardar() throws Exception;
+        
+	public void guardar(int parentID) throws Exception;
 	public void leer() throws Exception;
 	public void eliminar() throws Exception;
 	public ArrayList obtenerTodos() throws Exception;

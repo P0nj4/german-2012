@@ -84,7 +84,7 @@ public class Muelle extends utilidades.Observable implements IPersistente {
     }
 
     @Override
-    public void guardar() throws Exception {
+    public void guardar(int parentID) throws Exception {
         if (this.getid() == 0) {
             ManejadorBD.getInstancia().agregar(this);
         } else {
@@ -169,15 +169,7 @@ public class Muelle extends utilidades.Observable implements IPersistente {
         return this.nombre ;
     }
 
-    @Override
-    public int getParentId() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
-    @Override
-    public void setParentId(int id) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+    
     
     
     

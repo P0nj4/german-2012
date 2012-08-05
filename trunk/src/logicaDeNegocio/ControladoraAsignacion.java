@@ -90,13 +90,13 @@ public class ControladoraAsignacion {
             } else {
                 a.setEstado(EstadoDeAsignacion.Pendiente.getCode());
             }
-            a.setParentId(m.getid());
+            
             a.setPesoMercancia(pesoMercanciaReal);
             a.setPrioridad(prioridad);
             a.setUsuario(u);
             a.setVehiculo(v);
 
-            a.guardar();
+            a.guardar(m.getid());
             m.agregarNuevaAsignacion(a);
             OrdenPorCriterio orden = OrdenPorCriterio.getStrategy(m.getCriterio());
             
@@ -130,7 +130,7 @@ public class ControladoraAsignacion {
 
             m.eliminarAsignacion(asignacion);
             asignacion.setEstado(EstadoDeAsignacion.Finalizado.getCode());
-            asignacion.guardar();
+            asignacion.guardar(-1);
             asignacion = null;
 
             //sigue con el siguiente en la cola del muelle
@@ -141,7 +141,7 @@ public class ControladoraAsignacion {
                     Asignacion nuevaAsignacion = ((Asignacion) m.getAsignaciones().get(i));
                     if (nuevaAsignacion.getEstado() == EstadoDeAsignacion.Pendiente.getCode()) {
                         nuevaAsignacion.setEstado(EstadoDeAsignacion.Descargando.getCode());
-                        nuevaAsignacion.guardar();
+                        nuevaAsignacion.guardar(-1);
                         i = m.getAsignaciones().size() + 1;
                     }
                 }
