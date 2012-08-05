@@ -38,9 +38,9 @@ public class Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         txtNombre = new javax.swing.JTextField();
-        txtContrasenia = new javax.swing.JTextField();
         btnCancelar = new javax.swing.JButton();
         btnAceptar = new javax.swing.JButton();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -85,7 +85,7 @@ public class Login extends javax.swing.JFrame {
                             .addComponent(jLabel2))
                         .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtContrasenia)
+                            .addComponent(txtPassword)
                             .addComponent(txtNombre, javax.swing.GroupLayout.DEFAULT_SIZE, 144, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -99,7 +99,7 @@ public class Login extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancelar)
@@ -116,7 +116,7 @@ private void txtNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIR
 
 private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAceptarActionPerformed
     try {
-        Usuario u = Fachada.getInstance().loguearUsuario(txtNombre.getText(), txtContrasenia.getText());
+        Usuario u = Fachada.getInstance().loguearUsuario(txtNombre.getText(), txtPassword.getText());
         if (u != null) {
             Principal frm = new Principal(u);
             this.setVisible(false);
@@ -174,7 +174,7 @@ private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
     private javax.swing.JButton btnCancelar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JTextField txtContrasenia;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 }

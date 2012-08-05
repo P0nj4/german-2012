@@ -88,8 +88,8 @@ public class Usuario implements IPersistente {
 	@Override
 	public String getSelectSQL() {
 		String sql ="Select * from Usuarios where borrado = 0";
-		if(id != 0)
-			sql+= " and usuarioID =" + this.id;			
+		if(password != null && nombre != null)
+			sql+= " and usuarioNombre = '" + this.nombre +"' and usuarioPassword = '" + this.getPassword() + "'";
 		return sql;
 	}
 
