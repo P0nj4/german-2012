@@ -1,7 +1,6 @@
 package dominio;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import persistencia.IPersistente;
@@ -23,7 +22,7 @@ public class Muelle extends utilidades.Observable implements IPersistente {
         this.cerrado = pcerrado;
     }
     public Muelle() {
-        asignaciones = new ArrayList();
+        asignaciones = new ArrayList();        
     }
 
     public void agregarNuevaAsignacion(Asignacion a) {
@@ -70,6 +69,7 @@ public class Muelle extends utilidades.Observable implements IPersistente {
 
     public void setCriterio(int criterio) {
         this.criterio = criterio;
+        notificarObservadores();
     }
 
     @Override
@@ -166,8 +166,7 @@ public class Muelle extends utilidades.Observable implements IPersistente {
     }
 
     public String toString() {
-        return this.nombre + " " + this.id;
-
+        return this.nombre ;
     }
 
     @Override
@@ -179,4 +178,7 @@ public class Muelle extends utilidades.Observable implements IPersistente {
     public void setParentId(int id) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+    
+    
 }

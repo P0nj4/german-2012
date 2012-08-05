@@ -137,10 +137,10 @@ private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-F
 private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     try {
         Muelle m = (Muelle) muelles.get(ddlMuelles.getSelectedIndex() - 1);        
-        m.setCriterio(ddlCriterios.getSelectedIndex() + 1);
-        m.setDescripcion(txtDescripcion.getText());
-        m.setNombre(txtNombre.getText());
-        Fachada.getInstance().modificarMuelle(m.getid(), m.getCriterio(), txtDescripcion.getText(), txtNombre.getText());
+        //m.setCriterio(ddlCriterios.getSelectedIndex() + 1);
+        //m.setDescripcion(txtDescripcion.getText());
+        //m.setNombre(txtNombre.getText());
+        Fachada.getInstance().modificarMuelle(m, ddlCriterios.getSelectedIndex() + 1, txtDescripcion.getText(), txtNombre.getText());
         this.closeWindow();
     } catch (Exception ex) {
         msgBoxError(ex.getMessage());

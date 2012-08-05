@@ -14,6 +14,8 @@ import dominio.Asignacion;
 import dominio.Muelle;
 import dominio.Vehiculo;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import logicaDeNegocio.Fachada;
 import utilidades.enums.EstadoDeAsignacion;
@@ -162,6 +164,20 @@ private void ddlMuellesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
     @Override
     public void actualizar() {
+        try {
+            int selected = ddlMuelles.getSelectedIndex();
+            //Fachada.getInstance().agregarObservadorDeMuelles(this);
+            ddlMuelles.removeAllItems();
+            ddlMuelles.addItem("Seleccionar");
+            muelles = Fachada.getInstance().listarMuelles();
+            for (int i = 0; i < muelles.size(); i++) {
+                ddlMuelles.addItem(muelles.get(i).toString());
+            }
+            ddlMuelles.setSelectedIndex(selected);
+        } catch (Exception ex) {
+            Logger.getLogger(ListaSiempreVisible.class.getName()).log(Level.SEVERE, null, ex);
+        }
+            
         actualizarTablar();
     }
 }

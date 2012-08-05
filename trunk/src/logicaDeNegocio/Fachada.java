@@ -63,8 +63,8 @@ public class Fachada {
         ControladoraMuelle.getInstance().eliminarMuelle(m);
     }
 
-    public void modificarMuelle(int id, int criterio, String descripcion, String nombre) throws Exception {
-        ControladoraMuelle.getInstance().modificarMuelle(id, criterio, descripcion, nombre);
+    public void modificarMuelle(Muelle m, int criterio, String descripcion, String nombre) throws Exception {
+        ControladoraMuelle.getInstance().modificarMuelle(m, criterio, descripcion, nombre);
     }
     public void agregarObservadorDeMuelles(IObservador o) throws Exception{
         ControladoraMuelle.getInstance().agregarObservadorAMuelles(o);

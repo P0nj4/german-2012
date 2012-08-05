@@ -27,10 +27,10 @@ import logicaDeNegocio.Fachada;
  * @author German
  */
 public class Principal extends javax.swing.JFrame {
-
+    
     Usuario loggedUser = null;
     ArrayList ventanas = null;
-
+    
     private void agregarVentanaHija(JInternalBaseClass o) {
         boolean estaEnLaLista = false;
         /*for (int i = 0; i < ventanas.size(); i++) {
@@ -41,7 +41,7 @@ public class Principal extends javax.swing.JFrame {
         }
          * 
          */
-
+        
         for (int i = 0; i < this.desktop.getAllFrames().length; i++) {
             if (this.desktop.getAllFrames()[i].getClass() == o.getClass()) {
                 estaEnLaLista = true;
@@ -55,11 +55,11 @@ public class Principal extends javax.swing.JFrame {
         } else {
             o.setVisible(true);
         }
-
-
-
-
-
+        
+        
+        
+        
+        
     }
 
     /** Creates new form Principal */
@@ -69,20 +69,20 @@ public class Principal extends javax.swing.JFrame {
         this.setExtendedState(this.MAXIMIZED_BOTH);
         this.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
         //this.setUndecorated(true);
-        
+
         this.desktop.removeAll();
-
-
-
+        
+        
+        
         loggedUser = u;
         if (loggedUser.getTipoDeUsuario() != 1) {
             btnVehiculos.setVisible(false);
         }
         ListaSiempreVisible frm = new ListaSiempreVisible();
         agregarVentanaHija(frm);
-
+        
         this.addWindowListener(new java.awt.event.WindowAdapter() {
-
+            
             public void windowClosing(WindowEvent winEvt) {
                 //chequear los muelles
                 try {
@@ -90,7 +90,7 @@ public class Principal extends javax.swing.JFrame {
                     ArrayList muelles = Fachada.getInstance().listarMuelles();
                     for (int i = 0; i < muelles.size(); i++) {
                         if (((Muelle) muelles.get(i)).getAsignaciones().size() > 0) {
-                            JOptionPane.showMessageDialog(null, "Aún quedan descargas pendientes, no se puede cerrar el progama hasta que estas terminen", "Advertencia", JOptionPane.ERROR_MESSAGE);                            
+                            JOptionPane.showMessageDialog(null, "Aún quedan descargas pendientes, no se puede cerrar el progama hasta que estas terminen", "Advertencia", JOptionPane.ERROR_MESSAGE);
                             pendientes = true;
                             i = muelles.size() + 1;
                         }
@@ -102,17 +102,17 @@ public class Principal extends javax.swing.JFrame {
                         
                         Principal p = new Principal(loggedUser);
                         //p.setVisible(true);
-                        
-                        
-                         
-                    }
 
+                        
+                        
+                    }
+                    
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(null, "Lamentamos informarle que ha ocurrido un error", "Advertencia", JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
-
+        
     }
 
     /** This method is called from within the constructor to
@@ -134,9 +134,14 @@ public class Principal extends javax.swing.JFrame {
         btnMuelleNuevo = new javax.swing.JMenuItem();
         btnMuelleModificar = new javax.swing.JMenuItem();
         btnMuelleEliminar = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jMenuItem5 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -199,6 +204,14 @@ public class Principal extends javax.swing.JFrame {
         });
         menuMuelles.add(btnMuelleEliminar);
 
+        jMenuItem6.setText("Cerrar");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        menuMuelles.add(jMenuItem6);
+
         jMenuBar1.add(menuMuelles);
 
         jMenu1.setText("Registro");
@@ -221,6 +234,34 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
+        jMenu2.setText("Consultas");
+
+        jMenuItem3.setText("Vehiculos descargados por muelle");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem3);
+
+        jMenuItem4.setText("Listado detallado de muelles");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem4);
+
+        jMenuItem5.setText("Listado de usuarios y recepción");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem5);
+
+        jMenuBar1.add(jMenu2);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -241,49 +282,69 @@ private void btnVehiculoNuevoActionPerformed(java.awt.event.ActionEvent evt) {//
     try {
         Vehiculo_nuevo frm = new Vehiculo_nuevo(loggedUser);
         this.agregarVentanaHija(frm);
-
+        
     } catch (Exception ex) {
         JOptionPane.showMessageDialog(null, ex.getMessage(), "Advertencia", JOptionPane.ERROR_MESSAGE);
     }
 }//GEN-LAST:event_btnVehiculoNuevoActionPerformed
-
+    
 private void btnVehiculosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculosActionPerformed
 }//GEN-LAST:event_btnVehiculosActionPerformed
-
+    
 private void btnVehiculoModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculoModificarActionPerformed
     Vehiculo_modificar frm = new Vehiculo_modificar(loggedUser);
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnVehiculoModificarActionPerformed
-
+    
 private void btnVehiculoEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVehiculoEliminarActionPerformed
     Vehiculo_eliminar frm = new Vehiculo_eliminar(loggedUser);
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnVehiculoEliminarActionPerformed
-
+    
 private void btnMuelleNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuelleNuevoActionPerformed
     Muelle_nuevo frm = new Muelle_nuevo();
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnMuelleNuevoActionPerformed
-
+    
 private void btnMuelleEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuelleEliminarActionPerformed
     Muelle_eliminar frm = new Muelle_eliminar();
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnMuelleEliminarActionPerformed
-
+    
 private void btnMuelleModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuelleModificarActionPerformed
     Muelle_modificar frm = new Muelle_modificar();
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_btnMuelleModificarActionPerformed
-
+    
 private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
     Asignacion_nueva frm = new Asignacion_nueva(loggedUser);
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    
 private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
     Asignacion_modificar frm = new Asignacion_modificar();
     this.agregarVentanaHija(frm);
 }//GEN-LAST:event_jMenuItem2ActionPerformed
+    
+private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    Con_VehiculosDescargadosMuelleUI frm = new Con_VehiculosDescargadosMuelleUI();
+    this.agregarVentanaHija(frm);
+}//GEN-LAST:event_jMenuItem3ActionPerformed
+    
+private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+    Con_MuellesPromedioDescargaUI frm = new Con_MuellesPromedioDescargaUI();
+    this.agregarVentanaHija(frm);
+}//GEN-LAST:event_jMenuItem4ActionPerformed
+    
+private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+    Con_usuariosConDescargasUI frm = new Con_usuariosConDescargasUI();
+    this.agregarVentanaHija(frm);
+}//GEN-LAST:event_jMenuItem5ActionPerformed
+    
+private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+    Muelle_cerrar frm = new Muelle_cerrar();
+    this.agregarVentanaHija(frm);
+}//GEN-LAST:event_jMenuItem6ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -314,7 +375,7 @@ private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
-
+            
             public void run() {
                 new Principal(null).setVisible(true);
             }
@@ -330,9 +391,14 @@ private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
     private javax.swing.JMenu btnVehiculos;
     private javax.swing.JDesktopPane desktop;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenu menuMuelles;
     // End of variables declaration//GEN-END:variables
 }

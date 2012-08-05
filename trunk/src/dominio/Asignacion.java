@@ -1,7 +1,6 @@
 package dominio;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

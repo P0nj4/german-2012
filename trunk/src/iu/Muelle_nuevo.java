@@ -137,7 +137,7 @@ private void btnAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FI
             msgBoxError("Seleccione un criterio correcto");
         } else {
             
-            Fachada.getInstance().nuevoMuelle(ddlCriterio.getSelectedIndex() + 1, txtDescripcion.getText(), txtNombre.getText());
+            Fachada.getInstance().nuevoMuelle(ddlCriterio.getSelectedIndex(), txtDescripcion.getText(), txtNombre.getText());
             this.closeWindow();
         }
     } catch (Exception ex) {
